@@ -1,7 +1,7 @@
 name: easy_app_installer
 description: It provides easy installation and upgrade for applications.
 version: 0.0.1
-homepage:
+homepage: https://github.com/gfslx999/easy_app_installer
 
 environment:
   sdk: ">=2.15.0 <3.0.0"

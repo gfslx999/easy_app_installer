@@ -7,7 +7,9 @@
 * 仅安装apk (已处理相关权限)
 * 跳转到应用市场-当前应用详情页
 
-效果：[效果图](https://github.com/gfslx999/easy_app_installer/blob/master/example/android/example_preview.gif)
+效果：[效果演示](https://github.com/gfslx999/easy_app_installer/blob/master/example/PREVIEW.md)
+
+English document：[English document](https://github.com/gfslx999/easy_app_installer/blob/master/example/README.md)
 
 ## 配置
 
@@ -67,7 +69,6 @@ classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.10"
 </provider>
 ```
 
-//todo⚠️ 更改示例文件
 示例：[示例文件](https://github.com/gfslx999/easy_app_installer/blob/master/example/android/app/src/main/AndroidManifest.xml)
 
 ## 使用
@@ -92,7 +93,7 @@ import 'package:easy_app_installer/easy_app_installer.dart';
 
 ### 文档说明
 
-注意：所有API已经在内部处理了相关的权限，无需再次进行处理。
+`注意：所有API已经在内部处理了相关的权限，无需再次进行处理。`
 
 #### 1.下载并安装apk
 

@@ -79,7 +79,7 @@ class _MyAppState extends State<MyApp> {
     EasyLoading.show(status: "准备下载");
     EasyAppInstaller.instance.downloadAndInstallApp(
         fileUrl:
-        "https://hipos.oss-cn-shanghai.aliyuncs.com/hipos-kds-v.5.10.031-g.apk",
+            "https://hipos.oss-cn-shanghai.aliyuncs.com/hipos-kds-v.5.10.031-g.apk",
         fileDirectory: "updateApk",
         fileName: "newApk.apk",
         downloadListener: (progress) {
@@ -91,8 +91,7 @@ class _MyAppState extends State<MyApp> {
         },
         cancelTagListener: (cancelTag) {
           _cancelTag = cancelTag;
-        }
-    );
+        });
   }
 
   Widget _buildButton(String text, Function function) {
@@ -113,5 +112,4 @@ class _MyAppState extends State<MyApp> {
     EasyAppInstaller.instance.dispose();
     super.dispose();
   }
-
 }

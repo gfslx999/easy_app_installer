@@ -20,6 +20,7 @@ class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
 
   String _cancelTag = "";
+  String _apkFilePath = "";
 
   @override
   void initState() {
@@ -65,6 +66,10 @@ class _MyAppState extends State<MyApp> {
                   EasyLoading.showError("没有下载中的任务");
                 }
               }),
+              _buildButton('仅安装', () async {
+                final path = await EasyAppInstaller.instance.installApk(_apkFilePath);
+                print("gfs installApk: $path");
+              }),
               _buildButton('打开应用市场', () {
                 EasyAppInstaller.instance.openAppMarket();
               }),
@@ -75,9 +80,9 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  void downloadAndInstalApk() {
+  void downloadAndInstalApk() async {
     EasyLoading.show(status: "准备下载");
-    EasyAppInstaller.instance.downloadAndInstallApp(
+    _apkFilePath = await EasyAppInstaller.instance.downloadAndInstallApk(
         fileUrl:
             "https://hipos.oss-cn-shanghai.aliyuncs.com/hipos-kds-v.5.10.031-g.apk",
         fileDirectory: "updateApk",
@@ -92,6 +97,7 @@ class _MyAppState extends State<MyApp> {
         cancelTagListener: (cancelTag) {
           _cancelTag = cancelTag;
         });
+    print("gfs apkPath: $_apkFilePath");
   }
 
   Widget _buildButton(String text, Function function) {

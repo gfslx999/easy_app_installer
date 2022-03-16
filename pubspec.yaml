@@ -11,8 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  #flutter_native_helper: https://pub.flutter-io.cn/packages/flutter_native_helper
-  flutter_native_helper: ^0.0.6
+  flutter_plugin_android_lifecycle: ^2.0.5
 
 dev_dependencies:
   flutter_test:

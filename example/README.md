@@ -93,7 +93,7 @@ import 'package:easy_app_installer/easy_app_installer.dart';
 
 ### API Document
 
-`Note: All apis already handle the related permissions internally and do not need to do so again.`
+#### `Note: All apis already handle the related permissions internally and do not need to do so again.`
 
 #### 1.Download and install apk
 

@@ -93,7 +93,7 @@ import 'package:easy_app_installer/easy_app_installer.dart';
 
 ### 文档说明
 
-`注意：所有API已经在内部处理了相关的权限，无需再次进行处理。`
+#### `注意：所有API已经在内部处理了相关的权限，无需再次进行处理。`
 
 #### 1.下载并安装apk
 

@@ -22,9 +22,9 @@ class EasyAppInstaller {
     return version;
   }
 
-  /// 下载APK到⚠️沙盒目录下，并执行安装操作
+  /// 下载APK到沙盒目录下，并执行安装操作
   ///
-  /// [fileUrl] 文件远程地址
+  /// [fileUrl] apk远程地址
   /// [fileDirectory] 在沙盒目录下的文件夹路径
   /// [fileName] 文件名称，示例：newApk.apk(注意要拼接后缀.apk或.xxx)，无需传递 '/'
   /// [isDeleteOriginalFile] 如果本地存在相同文件，是否删除已存在文件，默认为true

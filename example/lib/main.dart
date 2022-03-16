@@ -59,6 +59,7 @@ class _MyAppState extends State<MyApp> {
               }),
               _buildButton('取消下载任务', () {
                 if (_cancelTag.isNotEmpty) {
+                  EasyLoading.dismiss();
                   EasyAppInstaller.instance.cancelDownload(_cancelTag);
                 } else {
                   EasyLoading.showError("没有下载中的任务");

@@ -1,6 +1,7 @@
 # easy_app_installer_example
 
-Demonstrates how to use the easy_app_installer plugin.
+It provides easy installation and upgrade for applications.
+
 
 ## Getting Started
 

@@ -95,6 +95,9 @@ import 'package:easy_app_installer/easy_app_installer.dart';
 
 #### `Note: All apis already handle the related permissions internally and do not need to do so again.`
 
+On Android 11, granting permissions for the first time causes the application process to shut down. 
+This is system behavior and has been fixed in Android 12.
+
 #### 1.Download and install apk
 
 | Param name | Param sense | Is require |

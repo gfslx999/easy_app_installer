@@ -95,6 +95,8 @@ import 'package:easy_app_installer/easy_app_installer.dart';
 
 #### `注意：所有API已经在内部处理了相关的权限，无需再次进行处理。`
 
+在Android 11上，首次同意权限会造成应用进程关闭，这是系统行为，这个问题在Android 12上已经修复。
+
 #### 1.下载并安装apk
 
 | 参数名称 | 参数意义 | 是否必传 |

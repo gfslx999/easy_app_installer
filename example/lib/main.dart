@@ -67,7 +67,8 @@ class _MyAppState extends State<MyApp> {
                 }
               }),
               _buildButton('仅安装', () async {
-                final path = await EasyAppInstaller.instance.installApk(_apkFilePath);
+                final path =
+                    await EasyAppInstaller.instance.installApk(_apkFilePath);
                 print("gfs installApk: $path");
               }),
               _buildButton('打开应用市场', () {

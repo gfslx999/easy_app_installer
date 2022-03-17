@@ -44,14 +44,13 @@ class EasyAppInstaller {
   /// 那么最终生成的路径就是: /data/user/0/com.xxxxx.flutter_native_helper_example/files/updateApk/new.apk
   /// 即你无需关心反斜杠拼接，如果 [fileDirectory] 想要为两级，那就为 'updateApk/second'，
   /// 最终路径就为：/data/user/0/com.xxxxx.flutter_native_helper_example/files/updateApk/second/new.apk
-  Future<String> downloadAndInstallApk({
-    required String fileUrl,
-    required String fileDirectory,
-    required String fileName,
-    bool isDeleteOriginalFile = true,
-    Function(double progress)? downloadListener,
-    Function(String cancelTag)? cancelTagListener
-  }) async {
+  Future<String> downloadAndInstallApk(
+      {required String fileUrl,
+      required String fileDirectory,
+      required String fileName,
+      bool isDeleteOriginalFile = true,
+      Function(double progress)? downloadListener,
+      Function(String cancelTag)? cancelTagListener}) async {
     final arguments = <String, dynamic>{
       "fileUrl": fileUrl,
       "fileDirectory": fileDirectory,
@@ -75,10 +74,10 @@ class EasyAppInstaller {
       });
     }
 
-    final result = await _channel.invokeMethod("downloadAndInstallApk", arguments);
+    final result =
+        await _channel.invokeMethod("downloadAndInstallApk", arguments);
     return _handleInstallResult(result, from: "downloadAndInstallApk");
   }
-
 
   /// 取消下载中的任务
   ///
@@ -138,5 +137,4 @@ class EasyAppInstaller {
     debugPrint("EasyAppInstaller.$from error: ${result["errorMessage"]}");
     return "";
   }
-
 }

@@ -131,7 +131,6 @@ class EasyAppInstaller {
 
   /// 处理安装返回结果
   String _handleInstallResult(dynamic result, {String from = ""}) {
-    print("gfs _handleInstallResult: $result");
     final apkPath = result['apkPath'];
     if (apkPath != null && apkPath is String && apkPath.isNotEmpty) {
       return apkPath;

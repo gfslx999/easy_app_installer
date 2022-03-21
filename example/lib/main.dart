@@ -83,9 +83,10 @@ class _MyAppState extends State<MyApp> {
 
   void downloadAndInstalApk() async {
     EasyLoading.show(status: "准备下载");
+    //fileUrl需替换为指定apk地址
     _apkFilePath = await EasyAppInstaller.instance.downloadAndInstallApk(
         fileUrl:
-            "https://hipos.oss-cn-shanghai.aliyuncs.com/hipos-kds-v.5.10.031-g.apk",
+            "https://xxx.apk",
         fileDirectory: "updateApk",
         fileName: "newApk.apk",
         downloadListener: (progress) {

@@ -1,13 +1,16 @@
 library easy_app_installer;
 
-export 'package:easy_app_installer/easy_app_installer_constant.dart';
+export 'package:easy_app_installer/constant/easy_app_installer_constant.dart';
+export 'package:easy_app_installer/constant/easy_app_installer_state.dart';
 
 import 'dart:async';
 
-import 'package:easy_app_installer/easy_app_installer_constant.dart';
+import 'package:easy_app_installer/constant/easy_app_installer_constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+
+import 'constant/easy_app_installer_state.dart';
 
 class EasyAppInstaller {
   EasyAppInstaller.internal();
@@ -33,10 +36,13 @@ class EasyAppInstaller {
   /// [fileDirectory] 在沙盒目录下的文件夹路径
   /// [fileName] 文件名称，示例：newApk.apk(注意要拼接后缀.apk或.xxx)，无需传递 '/'
   /// [isDeleteOriginalFile] 如果本地存在相同文件，是否删除已存在文件，默认为true
+  /// [explainContent] Android 6 ~ Android 10 中自定义权限弹窗的提示内容
+  /// [positiveText] Android 6 ~ Android 10 中自定义权限弹窗的确认文字内容
+  /// [negativeText] Android 6 ~ Android 10 中自定义权限弹窗的取消文字内容
   /// [downloadListener] 下载进度回调，值为 0~100
   /// [cancelTagListener] 回调用于取消下载中任务的tag
-  ///
-  /// 返回：如果成功跳转到应用安装页面，将返回apk的真实路径，否则为空字符串。
+  /// [stateListener] 下载状态变化时改变，state 参见 [EasyAppInstallerState],
+  /// 第二个参数仅在 onSuccess/onFailed 时回调, onSuccess 时为 apk路径, onFailed时为错误信息
   ///
   /// 关于 [fileDirectory]、[fileName] 的说明
   /// 如沙盒目录为：/data/user/0/com.xxxxx.flutter_native_helper_example/files
@@ -44,20 +50,28 @@ class EasyAppInstaller {
   /// 那么最终生成的路径就是: /data/user/0/com.xxxxx.flutter_native_helper_example/files/updateApk/new.apk
   /// 即你无需关心反斜杠拼接，如果 [fileDirectory] 想要为两级，那就为 'updateApk/second'，
   /// 最终路径就为：/data/user/0/com.xxxxx.flutter_native_helper_example/files/updateApk/second/new.apk
-  Future<String> downloadAndInstallApk(
-      {required String fileUrl,
-      required String fileDirectory,
-      required String fileName,
-      bool isDeleteOriginalFile = true,
-      Function(double progress)? downloadListener,
-      Function(String cancelTag)? cancelTagListener}) async {
+  Future<void> downloadAndInstallApk({
+    required String fileUrl,
+    required String fileDirectory,
+    required String fileName,
+    bool isDeleteOriginalFile = true,
+    String? explainContent,
+    String? positiveText,
+    String? negativeText,
+    Function(double progress)? downloadListener,
+    Function(String cancelTag)? cancelTagListener,
+    Function(EasyAppInstallerState state, String? attachParam)? stateListener,
+  }) async {
     final arguments = <String, dynamic>{
       "fileUrl": fileUrl,
       "fileDirectory": fileDirectory,
       "fileName": fileName,
       "isDeleteOriginalFile": isDeleteOriginalFile,
+      "explainContent": explainContent,
+      "positiveText": positiveText,
+      "negativeText": negativeText,
     };
-    if (downloadListener != null || cancelTagListener != null) {
+    if (downloadListener != null || cancelTagListener != null || stateListener != null) {
       _channel.setMethodCallHandler((call) async {
         switch (call.method) {
           case EasyAppInstallerConstant.methodDownloadProgress:
@@ -70,13 +84,20 @@ class EasyAppInstaller {
               cancelTagListener((call.arguments as String));
             }
             break;
+          case EasyAppInstallerConstant.methodDownloadState:
+            if (stateListener != null && call.arguments != null) {
+              _handleDownloadState(call.arguments, stateListener);
+            }
+            break;
         }
       });
     }
 
-    final result =
-        await _channel.invokeMethod("downloadAndInstallApk", arguments);
-    return _handleInstallResult(result, from: "downloadAndInstallApk");
+    try {
+      await _channel.invokeMethod("downloadAndInstallApk", arguments);
+    } catch (e) {
+      debugPrint("EasyAppInstaller.downloadAndInstallApk: $e");
+    }
   }
 
   /// 取消下载中的任务
@@ -90,11 +111,29 @@ class EasyAppInstaller {
   /// 安装apk，内部已处理 '允许应用内安装其他应用' 权限
   ///
   /// [filePath] 要安装的apk绝对路径
-  Future<String> installApk(String filePath) async {
-    final arguments = <String, dynamic>{"filePath": filePath};
+  /// [explainContent] Android 6 ~ Android 10 中自定义权限弹窗的提示内容
+  /// [positiveText] Android 6 ~ Android 10 中自定义权限弹窗的确认文字内容
+  /// [negativeText] Android 6 ~ Android 10 中自定义权限弹窗的取消文字内容
+  Future<String> installApk(
+    String filePath, {
+    String? explainContent,
+    String? positiveText,
+    String? negativeText,
+  }) async {
+    final arguments = <String, dynamic>{
+      "filePath": filePath,
+      "explainContent": explainContent,
+      "positiveText": positiveText,
+      "negativeText": negativeText,
+    };
     final result = await _channel.invokeMethod("installApk", arguments);
 
-    return _handleInstallResult(result, from: "installApk");
+    try {
+      return _handleInstallResult(result, from: "installApk");
+    } catch (e) {
+      debugPrint("EasyAppInstaller.installApk: $e");
+      return "";
+    }
   }
 
   /// 打开应用市场-当前应用详情页面
@@ -137,4 +176,32 @@ class EasyAppInstaller {
     debugPrint("EasyAppInstaller.$from error: ${result["errorMessage"]}");
     return "";
   }
+
+  /// 处理下载状态回调
+  void _handleDownloadState(dynamic arguments, Function(EasyAppInstallerState state, String? attachParam) stateChangeListener) {
+    final newState = arguments["newState"] as String? ?? "";
+    final filePath = arguments["apkFilePath"] as String? ?? "";
+    final errorMsg = arguments["errorMsg"] as String? ?? "";
+
+    if (newState.isNotEmpty) {
+      switch (newState) {
+        case "ON_PREPARED":
+          stateChangeListener(EasyAppInstallerState.onPrepared, "");
+          break;
+        case "ON_DOWNLOADING":
+          stateChangeListener(EasyAppInstallerState.onDownloading, "");
+          break;
+        case "ON_SUCCESS":
+          stateChangeListener(EasyAppInstallerState.onSuccess, filePath);
+          break;
+        case "ON_ERROR":
+          stateChangeListener(EasyAppInstallerState.onFailed, errorMsg);
+          break;
+        case "ON_CANCELED":
+          stateChangeListener(EasyAppInstallerState.onCanceled, "");
+          break;
+      }
+    }
+  }
+
 }

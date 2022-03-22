@@ -21,6 +21,7 @@ class _MyAppState extends State<MyApp> {
 
   String _cancelTag = "";
   String _apkFilePath = "";
+  String _currentDownloadStateCH = "当前下载状态：还未开始";
 
   @override
   void initState() {
@@ -55,6 +56,7 @@ class _MyAppState extends State<MyApp> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              Text(_currentDownloadStateCH),
               _buildButton('下载并安装apk', () {
                 downloadAndInstalApk();
               }),
@@ -82,13 +84,12 @@ class _MyAppState extends State<MyApp> {
   }
 
   void downloadAndInstalApk() async {
-    EasyLoading.show(status: "准备下载");
     //fileUrl需替换为指定apk地址
-    _apkFilePath = await EasyAppInstaller.instance.downloadAndInstallApk(
-        fileUrl:
-            "https://xxx.apk",
+    await EasyAppInstaller.instance.downloadAndInstallApk(
+        fileUrl: "https://xxxx.apk",
         fileDirectory: "updateApk",
         fileName: "newApk.apk",
+        explainContent: "快去开启权限！！！",
         downloadListener: (progress) {
           if (progress < 100) {
             EasyLoading.showProgress(progress / 100, status: "下载中");
@@ -98,8 +99,36 @@ class _MyAppState extends State<MyApp> {
         },
         cancelTagListener: (cancelTag) {
           _cancelTag = cancelTag;
-        });
-    print("gfs apkPath: $_apkFilePath");
+        },
+        stateListener: (newState, attachParam) {
+          _handleDownloadStateChanged(newState, attachParam);
+        }
+    );
+  }
+
+  /// 处理下载状态更改
+  void _handleDownloadStateChanged(EasyAppInstallerState newState, String? attachParam) {
+    switch (newState) {
+      case EasyAppInstallerState.onPrepared:
+        _currentDownloadStateCH = "当前下载状态：开始下载";
+        break;
+      case EasyAppInstallerState.onDownloading:
+        _currentDownloadStateCH = "当前下载状态：下载中";
+        break;
+      case EasyAppInstallerState.onSuccess:
+        if (attachParam != null) {
+          _currentDownloadStateCH = "当前下载状态：下载成功, $attachParam";
+          _apkFilePath = attachParam;
+        }
+        break;
+      case EasyAppInstallerState.onFailed:
+        _currentDownloadStateCH = "当前下载状态：下载失败, $attachParam";
+        break;
+      case EasyAppInstallerState.onCanceled:
+        _currentDownloadStateCH = "当前下载状态：取消下载";
+        break;
+    }
+    setState(() {});
   }
 
   Widget _buildButton(String text, Function function) {

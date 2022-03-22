@@ -23,6 +23,8 @@ classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.10"
 ```
 Change `1.3.10` to `1.5.20`.
 
+With out, Please include Kotlin gradle plugin, reference：[example file](https://github.com/gfslx999/easy_app_installer/blob/master/example/android/build.gradle)
+
 ### 2.Configure FileProvider
 
 In `android - app - src - main - res`, to create `xml` directory,
@@ -105,9 +107,15 @@ This is system behavior and has been fixed in Android 12.
 | fileUrl | Apk url | yes |
 | fileDirectory | Folder path (without concatenating backslashes at the beginning and end) | yes |
 | fileName | File name (no concatenation backslash required) | yes |
+| explainContent | Android 6 ~ 10 Popup Permission Prompt content | no |
+| positiveText | Android 6 ~ 10 Popup confim text | no |
+| negativeText | Android 6 ~ 10 Popup cancel text | no |
 | isDeleteOriginalFile | Whether to delete the same file if it already exists on the local PC (default:true)) | no |
 | downloadListener | Download progress, type is double, 0~100 | no |
 | cancelTagListener | The tag used to cancel the task in the download | no |
+| stateListener | Changes when the download status changes，Please refer to bottom `Class description` | no |
+
+[example](https://github.com/gfslx999/easy_app_installer/blob/master/example/lib/main.dart)
 
 ```kotlin
 String _cancelTag = "";
@@ -118,7 +126,7 @@ String _cancelTag = "";
 ///
 /// If this method is called consecutively and arguments are passed exactly the same, 
 /// the Native end will refuse to perform subsequent tasks until the task in the download completes.
-EasyAppInstaller.instance.downloadAndInstallApp(
+EasyAppInstaller.instance.downloadAndInstallApk(
     fileUrl: "https://xxxx.apk",
     fileDirectory: "updateApk",
     fileName: "new.apk",
@@ -131,6 +139,9 @@ EasyAppInstaller.instance.downloadAndInstallApp(
     },
     cancelTagListener: (cancelTag) {
         _cancelTag = cancelTag;
+    },
+    stateListener: (newState, attachParam) {
+        _handleDownloadStateChanged(newState, attachParam);
     }
 );
 ```
@@ -170,4 +181,19 @@ EasyAppInstaller.instance.installApk(filePath);
 /// if you don't specify a market, but want the manufacturer's store open on most devices, 
 /// set 'isOpenSystemMarket' to true
 EasyAppInstaller.instance.openAppMarket();
+```
+
+### Class description
+
+#### Download state
+
+```kotlin
+enum EasyAppInstallerState {
+    //The status callback comes after permissions have been obtained
+    onPrepared,
+    onDownloading,
+    onSuccess,
+    onFailed,
+    onCanceled
+}
 ```

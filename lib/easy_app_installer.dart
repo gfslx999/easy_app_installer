@@ -42,7 +42,7 @@ class EasyAppInstaller {
   /// [downloadListener] 下载进度回调，值为 0~100
   /// [cancelTagListener] 回调用于取消下载中任务的tag
   /// [stateListener] 下载状态变化时改变，state 参见 [EasyAppInstallerState],
-  /// 第二个参数仅在 onSuccess/onFailed 时回调, onSuccess 时为 apk路径, onFailed时为错误信息
+  /// 'attachParam' 仅在 onSuccess/onFailed 时回调, 'onSuccess' 时为apk路径, 'onFailed' 时为错误信息
   ///
   /// 关于 [fileDirectory]、[fileName] 的说明
   /// 如沙盒目录为：/data/user/0/com.xxxxx.flutter_native_helper_example/files
@@ -71,7 +71,9 @@ class EasyAppInstaller {
       "positiveText": positiveText,
       "negativeText": negativeText,
     };
-    if (downloadListener != null || cancelTagListener != null || stateListener != null) {
+    if (downloadListener != null ||
+        cancelTagListener != null ||
+        stateListener != null) {
       _channel.setMethodCallHandler((call) async {
         switch (call.method) {
           case EasyAppInstallerConstant.methodDownloadProgress:
@@ -178,7 +180,10 @@ class EasyAppInstaller {
   }
 
   /// 处理下载状态回调
-  void _handleDownloadState(dynamic arguments, Function(EasyAppInstallerState state, String? attachParam) stateChangeListener) {
+  void _handleDownloadState(
+      dynamic arguments,
+      Function(EasyAppInstallerState state, String? attachParam)
+          stateChangeListener) {
     final newState = arguments["newState"] as String? ?? "";
     final filePath = arguments["apkFilePath"] as String? ?? "";
     final errorMsg = arguments["errorMsg"] as String? ?? "";
@@ -203,5 +208,4 @@ class EasyAppInstaller {
       }
     }
   }
-
 }

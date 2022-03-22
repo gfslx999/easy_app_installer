@@ -102,12 +102,12 @@ class _MyAppState extends State<MyApp> {
         },
         stateListener: (newState, attachParam) {
           _handleDownloadStateChanged(newState, attachParam);
-        }
-    );
+        });
   }
 
   /// 处理下载状态更改
-  void _handleDownloadStateChanged(EasyAppInstallerState newState, String? attachParam) {
+  void _handleDownloadStateChanged(
+      EasyAppInstallerState newState, String? attachParam) {
     switch (newState) {
       case EasyAppInstallerState.onPrepared:
         _currentDownloadStateCH = "当前下载状态：开始下载";

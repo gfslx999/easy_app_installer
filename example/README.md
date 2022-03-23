@@ -13,19 +13,7 @@ Results：[Results demonstrate](https://github.com/gfslx999/easy_app_installer/b
 
 ## Config
 
-### 1.In `android - build.gradle`，find:
-```kotlin
-ext.kotlin_version = '1.3.10'
-```
-or
-```kotlin
-classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.10"
-```
-Change `1.3.10` to `1.5.20`.
-
-With out, Please include Kotlin gradle plugin, reference：[example file](https://github.com/gfslx999/easy_app_installer/blob/master/example/android/build.gradle)
-
-### 2.Configure FileProvider
+### 1.Configure FileProvider
 
 In `android - app - src - main - res`, to create `xml` directory,
 And then, in `xml` to create `file_provider_path.xml` file, content is:
@@ -166,14 +154,16 @@ EasyAppInstaller.instance.cancelDownload(_cancelTag);
 EasyAppInstaller.instance.installApk(filePath);
 ```
 
-#### 4.Jump to AppMarket-Current application details page.
+#### 4.Jump to AppMarket - assign application details page.
 
 | Param name | Param sense | Is require |
 | ------ | :------: | :------: |
+| applicationPackageName | Specify the application package name (default: "") | no |
 | targetMarketPackageName | Specify the application market package name (default: "") | no |
 | isOpenSystemMarket | Whether to open vendor app market (default: true) | no |
 
 ```kotlin
+/// If 'applicationPackageName' is empty, It will open the current app by default.
 /// Attention, the 'targetMarketPackageName' priority is higher than 'isOpenSystemMarket',
 /// So just in 'targetMarketPackageName' is empty 'isOpenSystemMarket' will be available。
 ///
@@ -181,6 +171,17 @@ EasyAppInstaller.instance.installApk(filePath);
 /// if you don't specify a market, but want the manufacturer's store open on most devices, 
 /// set 'isOpenSystemMarket' to true
 EasyAppInstaller.instance.openAppMarket();
+```
+
+#### 5.Jump to Setting - assign application details page.
+
+| Param name | Param sense | Is require |
+| ------ | :------: | :------: |
+| applicationPackageName | Specify the application package name (default: "") | no |
+
+```kotlin
+/// If 'applicationPackageName' is empty, It will open the current app by default.
+EasyAppInstaller.instance.openAppSettingDetails(applicationPackageName: "$targetAppPackage");
 ```
 
 ### Class description

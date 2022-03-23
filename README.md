@@ -14,23 +14,7 @@ document：[English document](https://github.com/gfslx999/easy_app_installer/blo
 
 ## 配置
 
-### 1.在 `android - build.gradle`，找到:
-
-```kotlin
-ext.kotlin_version = '1.3.10'
-```
-
-或
-
-```kotlin
-classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.10"
-```
-
-将`1.3.10`修改为`1.5.20`.
-
-如果没有，请引入 Kotlin gradle，参考：[示例文件](https://github.com/gfslx999/easy_app_installer/blob/master/example/android/build.gradle)
-
-### 2.如果要使用应用内升级的相关功能，则需要配置 FileProvider
+1.如果要使用应用内升级的相关功能，则需要配置 FileProvider
 
 在 `android - app - src - main - res` 下，新建 `xml` 文件夹， 随后在 `xml` 内新建 `file_provider_path.xml` 文件，内容如下:
 
@@ -173,16 +157,29 @@ EasyAppInstaller.instance.installApk(filePath);
 
 | 参数名称 | 参数意义 | 是否必传 |
 | ------ | :------: | :------: |
+| applicationPackageName | 指定应用包名(默认为空) | 否 |
 | targetMarketPackageName | 指定应用市场包名(默认为空) | 否 |
 | isOpenSystemMarket | 是否打开厂商应用市场(默认为true) | 否 |
 
 ```kotlin
+/// 'applicationPackageName' 如果为空，则默认打开当前应用。
 /// 注意，'targetMarketPackageName' 的优先级是高于 'isOpenSystemMarket' 的，
 /// 所以仅在 'targetMarketPackageName' 为空的情况下 'isOpenSystemMarket' 才会生效。
 ///
 /// 简单来说，如果你有指定的应用市场，就传递 'targetMarketPackageName' 为对应的包名；
 /// 如果你没有指定的应用市场，但是想让大部分机型都打开厂商应用商店，那么就设置 'isOpenSystemMarket' 为true
 EasyAppInstaller.instance.openAppMarket();
+```
+
+#### 5.跳转到设置-指定应用详情页
+
+| 参数名称 | 参数意义 | 是否必传 |
+| ------ | :------: | :------: |
+| applicationPackageName | 指定应用包名(默认为空) | 否 |
+
+```kotlin
+/// 'applicationPackageName' 如果为空，则默认打开当前应用。
+EasyAppInstaller.instance.openAppSettingDetails(applicationPackageName: "$targetAppPackage");
 ```
 
 ### 类说明

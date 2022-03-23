@@ -76,6 +76,9 @@ class _MyAppState extends State<MyApp> {
               _buildButton('打开应用市场', () {
                 EasyAppInstaller.instance.openAppMarket();
               }),
+              _buildButton('打开设置详情页', () {
+                EasyAppInstaller.instance.openAppSettingDetails();
+              }),
             ],
           ),
         ),

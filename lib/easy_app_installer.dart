@@ -4,6 +4,7 @@ export 'package:easy_app_installer/constant/easy_app_installer_constant.dart';
 export 'package:easy_app_installer/constant/easy_app_installer_state.dart';
 
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:easy_app_installer/constant/easy_app_installer_constant.dart';
 import 'package:flutter/cupertino.dart';
@@ -50,7 +51,7 @@ class EasyAppInstaller {
   /// 那么最终生成的路径就是: /data/user/0/com.xxxxx.flutter_native_helper_example/files/updateApk/new.apk
   /// 即你无需关心反斜杠拼接，如果 [fileDirectory] 想要为两级，那就为 'updateApk/second'，
   /// 最终路径就为：/data/user/0/com.xxxxx.flutter_native_helper_example/files/updateApk/second/new.apk
-  Future<void> downloadAndInstallApk({
+  Future<bool> downloadAndInstallApk({
     required String fileUrl,
     required String fileDirectory,
     required String fileName,
@@ -97,8 +98,10 @@ class EasyAppInstaller {
 
     try {
       await _channel.invokeMethod("downloadAndInstallApk", arguments);
+      return true;
     } catch (e) {
       debugPrint("EasyAppInstaller.downloadAndInstallApk: $e");
+      return false;
     }
   }
 
@@ -140,15 +143,19 @@ class EasyAppInstaller {
 
   /// 打开应用市场-当前应用详情页面
   ///
+  /// [applicationPackageName] 要打开的应用名称，如果为空，则默认打开当前应用
   /// [targetMarketPackageName] 指定应用市场包名
   /// [isOpenSystemMarket] 如 'targetMarketPackageName' 为空，是否打开本机自带应用市场，
   ///
   /// 简单来说，如果你有指定的应用市场，就传递 'targetMarketPackageName' 为对应的包名；
   /// 如果你没有指定的应用市场，但是想让大部分机型都打开厂商应用商店，那么就设置 'isOpenSystemMarket' 为true
-  Future<bool> openAppMarket(
-      {String targetMarketPackageName = "",
-      bool isOpenSystemMarket = true}) async {
+  Future<bool> openAppMarket({
+    String applicationPackageName = "",
+    String targetMarketPackageName = "",
+    bool isOpenSystemMarket = true,
+  }) async {
     final arguments = <String, dynamic>{
+      "applicationPackageName": applicationPackageName,
       "targetMarketPackageName": targetMarketPackageName,
       "isOpenSystemMarket": isOpenSystemMarket,
     };
@@ -159,7 +166,28 @@ class EasyAppInstaller {
       }
       return false;
     } catch (e) {
-      debugPrint("openAppMarket: $e");
+      debugPrint("EasyAppInstaller.openAppMarket: $e");
+      return false;
+    }
+  }
+
+  /// 打开设置-指定应用详情页
+  ///
+  /// [applicationPackageName] 指定应用包名，如果为空，则默认为当前应用
+  Future<bool> openAppSettingDetails({
+    String applicationPackageName = "",
+  }) async {
+    final arguments = <String, dynamic>{
+      "applicationPackageName": applicationPackageName,
+    };
+    try {
+      final result = await _channel.invokeMethod("openAppSettingDetail", arguments);
+      if (result is bool) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      debugPrint("EasyAppInstaller.openAppSettingDetails: $e");
       return false;
     }
   }

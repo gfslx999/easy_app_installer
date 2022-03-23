@@ -51,5 +51,5 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "com.github.gfslx999.common_helper:gao:v.0.125"
+    implementation "com.github.gfslx999.common_helper:gao:v.0.126"
 }

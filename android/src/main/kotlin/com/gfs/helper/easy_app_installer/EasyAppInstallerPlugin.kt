@@ -71,6 +71,9 @@ class EasyAppInstallerPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       "openAppMarket" -> {
         openAppMarket(arguments, result)
       }
+      "openAppSettingDetail" -> {
+        openSettingAppDetails(arguments, result)
+      }
       else -> {
         result.notImplemented()
       }
@@ -78,13 +81,31 @@ class EasyAppInstallerPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   }
 
   /**
-   * 打开应用市场-当前应用详情页
+   * 打开设置-指定应用详情页
+   */
+  private fun openSettingAppDetails(arguments: Map<*, *>?, result: Result) {
+    val applicationPackageName = arguments?.get("applicationPackageName") as String? ?: ""
+
+    val openAppSettingDetail =
+      AppHelper.openAppSettingDetail(mActivity, applicationPackageName = applicationPackageName)
+    if (openAppSettingDetail) {
+      result.success(true)
+    } else {
+      result.error("openSettingAppDetails", "open failed", "")
+    }
+  }
+
+  /**
+   * 打开应用市场-指定应用详情页
    */
   private fun openAppMarket(arguments: Map<*, *>?, result: Result) {
     val targetMarketPackageName = arguments?.get("targetMarketPackageName") as String? ?: ""
     val isOpenSystemMarket = arguments?.get("isOpenSystemMarket") as Boolean? ?: true
+    val applicationPackageName = arguments?.get("applicationPackageName") as String? ?: ""
+
     val openResult = AppHelper.openAppMarket(
       mActivity,
+      applicationPackageName = applicationPackageName,
       targetMarketPackageName = targetMarketPackageName,
       isOpenSystemMarket = isOpenSystemMarket
     )

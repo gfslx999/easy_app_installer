@@ -35,30 +35,30 @@ classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.10"
 在 `android - app - src - main - res` 下，新建 `xml` 文件夹， 随后在 `xml` 内新建 `file_provider_path.xml` 文件，内容如下:
 
 ```kotlin
-<?xml version ="1.0" encoding ="utf-8"?>
-<paths >
-<root - path name ="root" path ="." / >
-
-<files - path
-name = "files"
-path = "." / >
-
-<cache - path
-name = "cache"
-path = "." / >
-
-<external - path
-name = "external"
-path = "." / >
-
-<external - cache - path
-name = "external_cache"
-path = "." / >
-
-<external - files - path
-name = "external_file"
-path = "." / >
-</paths >
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <root-path name="root" path="."/>
+    
+    <files-path
+    name="files"
+    path="."/>
+    
+    <cache-path
+    name="cache"
+    path="."/>
+    
+    <external-path
+    name="external"
+    path="."/>
+    
+    <external-cache-path
+    name="external_cache"
+    path="."/>
+    
+    <external-files-path
+    name="external_file"
+    path="."/>
+</paths>
 ```
 
 最后，打开 `android - app - src - main - AndroidManifest.xml` 文件， 在 `application` 标签下添加：
@@ -68,10 +68,10 @@ path = "." / >
 android:authorities = "${applicationId}.fileprovider"
 android:exported = "false"
 android:grantUriPermissions = "true"
-android:name = "androidx.core.content.FileProvider" >
-<meta - data
-android:name = "android.support.FILE_PROVIDER_PATHS"
-android:resource = "@xml/file_provider_path" / >
+android:name = "androidx.core.content.FileProvider">
+    <meta-data
+    android:name = "android.support.FILE_PROVIDER_PATHS"
+    android:resource = "@xml/file_provider_path" />
 </provider >
 ```
 

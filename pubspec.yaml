@@ -1,6 +1,6 @@
 name: easy_app_installer
 description: It provides easy installation and upgrade for applications, come on, take a look.
-version: 0.0.3
+version: 0.0.4
 homepage: https://github.com/gfslx999/easy_app_installer
 
 environment:

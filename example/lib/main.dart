@@ -89,7 +89,7 @@ class _MyAppState extends State<MyApp> {
   void downloadAndInstalApk() async {
     //fileUrl需替换为指定apk地址
     await EasyAppInstaller.instance.downloadAndInstallApk(
-        fileUrl: "https://xxxx.apk",
+        fileUrl: "https://hipos.oss-cn-shanghai.aliyuncs.com/hipos-kds-v.5.10.0321.apk",
         fileDirectory: "updateApk",
         fileName: "newApk.apk",
         explainContent: "快去开启权限！！！",

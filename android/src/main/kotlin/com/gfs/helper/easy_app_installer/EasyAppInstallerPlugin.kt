@@ -302,12 +302,10 @@ class EasyAppInstallerPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
   override fun onDetachedFromActivityForConfigChanges() {
     mActivity = null
-
   }
 
   override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
     mActivity = binding.activity
-
   }
 
   override fun onDetachedFromActivity() {

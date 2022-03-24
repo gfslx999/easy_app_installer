@@ -4,7 +4,6 @@ export 'package:easy_app_installer/constant/easy_app_installer_constant.dart';
 export 'package:easy_app_installer/constant/easy_app_installer_state.dart';
 
 import 'dart:async';
-import 'dart:ffi';
 
 import 'package:easy_app_installer/constant/easy_app_installer_constant.dart';
 import 'package:flutter/cupertino.dart';
@@ -72,6 +71,7 @@ class EasyAppInstaller {
       "positiveText": positiveText,
       "negativeText": negativeText,
     };
+
     if (downloadListener != null ||
         cancelTagListener != null ||
         stateListener != null) {
@@ -181,7 +181,8 @@ class EasyAppInstaller {
       "applicationPackageName": applicationPackageName,
     };
     try {
-      final result = await _channel.invokeMethod("openAppSettingDetail", arguments);
+      final result =
+          await _channel.invokeMethod("openAppSettingDetail", arguments);
       if (result is bool) {
         return true;
       }

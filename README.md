@@ -4,8 +4,9 @@
 
 * 下载并安装apk (已处理相关权限)
 * 取消下载中的任务
-* 仅安装apk (已处理相关权限)
-* 跳转到应用市场-当前应用详情页
+* 仅安装apk
+* 跳转到应用市场-指定应用详情页
+* 跳转到设置-指定应用详情页
 
 ## 效果：[效果演示](https://github.com/gfslx999/easy_app_installer/blob/master/example/PREVIEW.md)
 

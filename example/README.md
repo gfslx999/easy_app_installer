@@ -5,7 +5,8 @@ It provides easy installation and upgrade for applications.
 * Download and install apk (Related permissions have been processed).
 * Cancel downloading task.
 * Only install apk (Related permissions have been processed).
-* Jump to AppMarket-Current application details page.
+* Jump to AppMarket-Specif the application details page.
+* Jump to Setting-Specif the application details page.
 
 ## Preview：[Preview demonstrate](https://github.com/gfslx999/easy_app_installer/blob/master/example/PREVIEW.md)
 

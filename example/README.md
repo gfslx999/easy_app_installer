@@ -7,9 +7,9 @@ It provides easy installation and upgrade for applications.
 * Only install apk (Related permissions have been processed).
 * Jump to AppMarket-Current application details page.
 
-Results：[Results demonstrate](https://github.com/gfslx999/easy_app_installer/blob/master/example/PREVIEW.md)
+## Preview：[Preview demonstrate](https://github.com/gfslx999/easy_app_installer/blob/master/example/PREVIEW.md)
 
-中文文档：[中文文档](https://github.com/gfslx999/easy_app_installer/blob/master/README.md)
+## 中文文档：[中文文档](https://github.com/gfslx999/easy_app_installer/blob/master/README.md)
 
 ## Config
 
@@ -71,7 +71,7 @@ In pubspec.yaml：
 dependencies:
   easy_app_installer: ^$latestVersion
 ```
-latestVersion: [latestVersion](https://pub.flutter-io.cn/packages/flutter_native_helper/install)
+latestVersion: [latestVersion](https://pub.flutter-io.cn/packages/easy_app_installer/install)
 
 ### Import
 

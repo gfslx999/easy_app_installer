@@ -7,10 +7,9 @@
 * 仅安装apk (已处理相关权限)
 * 跳转到应用市场-当前应用详情页
 
-效果：[效果演示](https://github.com/gfslx999/easy_app_installer/blob/master/example/PREVIEW.md)
+## 效果：[效果演示](https://github.com/gfslx999/easy_app_installer/blob/master/example/PREVIEW.md)
 
-English
-document：[English document](https://github.com/gfslx999/easy_app_installer/blob/master/example/README.md)
+## English document：[English document](https://github.com/gfslx999/easy_app_installer/blob/master/example/README.md)
 
 ## 配置
 
@@ -72,7 +71,7 @@ dependencies:
 easy_app_installer: ^$latestVersion
 ```
 
-latestVersion: [latestVersion](https://pub.flutter-io.cn/packages/flutter_native_helper/install)
+latestVersion: [latestVersion](https://pub.flutter-io.cn/packages/easy_app_installer/install)
 
 ### 导入
 

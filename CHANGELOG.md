@@ -1,4 +1,8 @@
 
+## 0.0.5
+
+* 修复-README lastestVersion 地址错误 - Fix README lastestVersion url error.
+
 ## 0.0.4
 
 * 新增-打开设置 应用详情页api，支持指定包名 - Added, open app setting detail, support assign app package name.

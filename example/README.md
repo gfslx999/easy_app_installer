@@ -102,7 +102,7 @@ This is system behavior and has been fixed in Android 12.
 | isDeleteOriginalFile | Whether to delete the same file if it already exists on the local PC (default:true)) | no |
 | downloadListener | Download progress, type is double, 0~100 | no |
 | cancelTagListener | The tag used to cancel the task in the download | no |
-| stateListener | Changes when the download status changes，Please refer to bottom `Class description` | no |
+| stateListener | Changes when the download status changes，Please refer to bottom [Download state](#classDesDownloadState) | no |
 
 [example](https://github.com/gfslx999/easy_app_installer/blob/master/example/lib/main.dart)
 
@@ -187,7 +187,7 @@ EasyAppInstaller.instance.openAppSettingDetails(applicationPackageName: "$target
 
 ### Class description
 
-#### Download state
+#### <span id="classDesDownloadState">Download state</span>
 
 ```kotlin
 enum EasyAppInstallerState {

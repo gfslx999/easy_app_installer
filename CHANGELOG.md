@@ -1,7 +1,7 @@
 
 ## 0.0.5
 
-* 修复-README lastestVersion 地址错误 - Fix README lastestVersion url error.
+* 修复-README latestVersion 地址错误 - Fix README latestVersion url error.
 
 ## 0.0.4
 

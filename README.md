@@ -101,7 +101,7 @@ import 'package:easy_app_installer/easy_app_installer.dart';
 | isDeleteOriginalFile | 如果本地已存在相同文件，是否要删除(默认为true) | 否 |
 | downloadListener | 下载进度回调，double类型，值为 0~100 | 否 |
 | cancelTagListener | 回调用于取消下载中任务的tag | 否 |
-| stateListener | 下载状态变化时改变，详请请参考底部 `类说明` | 否 |
+| stateListener | 下载状态变化时改变，详请请参考底部[下载状态](#classDesDownloadState) | 否 |
 
 [参考](https://github.com/gfslx999/easy_app_installer/blob/master/example/lib/main.dart)
 
@@ -184,7 +184,7 @@ EasyAppInstaller.instance.openAppSettingDetails(applicationPackageName: "$target
 
 ### 类说明
 
-#### 下载状态
+#### <span id="classDesDownloadState">下载状态</span>
 
 ```kotlin
 enum EasyAppInstallerState {

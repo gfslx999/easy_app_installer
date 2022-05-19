@@ -12,6 +12,8 @@ import 'package:flutter/services.dart';
 
 import 'constant/easy_app_installer_state.dart';
 
+typedef OnStateChangeListener = Function(EasyAppInstallerState state, String? attachParam);
+
 class EasyAppInstaller {
   EasyAppInstaller.internal();
 
@@ -39,9 +41,9 @@ class EasyAppInstaller {
   /// [explainContent] Android 6 ~ Android 10 中自定义权限弹窗的提示内容
   /// [positiveText] Android 6 ~ Android 10 中自定义权限弹窗的确认文字内容
   /// [negativeText] Android 6 ~ Android 10 中自定义权限弹窗的取消文字内容
-  /// [downloadListener] 下载进度回调，值为 0~100
-  /// [cancelTagListener] 回调用于取消下载中任务的tag
-  /// [stateListener] 下载状态变化时改变，state 参见 [EasyAppInstallerState],
+  /// [onDownloadingListener] 下载进度回调，值为 0~100
+  /// [onCancelTagListener] 回调用于取消下载中任务的tag
+  /// [onStateListener] 下载状态变化时改变，state 参见 [EasyAppInstallerState],
   /// 'attachParam' 仅在 onSuccess/onFailed 时回调, 'onSuccess' 时为apk路径, 'onFailed' 时为错误信息
   ///
   /// 关于 [fileDirectory]、[fileName] 的说明
@@ -58,9 +60,9 @@ class EasyAppInstaller {
     String? explainContent,
     String? positiveText,
     String? negativeText,
-    Function(double progress)? downloadListener,
-    Function(String cancelTag)? cancelTagListener,
-    Function(EasyAppInstallerState state, String? attachParam)? stateListener,
+    Function(double progress)? onDownloadingListener,
+    Function(String cancelTag)? onCancelTagListener,
+    OnStateChangeListener? onStateListener,
   }) async {
     final arguments = <String, dynamic>{
       "fileUrl": fileUrl,
@@ -72,24 +74,24 @@ class EasyAppInstaller {
       "negativeText": negativeText,
     };
 
-    if (downloadListener != null ||
-        cancelTagListener != null ||
-        stateListener != null) {
+    if (onDownloadingListener != null ||
+        onCancelTagListener != null ||
+        onStateListener != null) {
       _channel.setMethodCallHandler((call) async {
         switch (call.method) {
           case EasyAppInstallerConstant.methodDownloadProgress:
-            if (call.arguments is double && downloadListener != null) {
-              downloadListener((call.arguments as double));
+            if (call.arguments is double && onDownloadingListener != null) {
+              onDownloadingListener((call.arguments as double));
             }
             break;
           case EasyAppInstallerConstant.methodCancelTag:
-            if (call.arguments is String && cancelTagListener != null) {
-              cancelTagListener((call.arguments as String));
+            if (call.arguments is String && onCancelTagListener != null) {
+              onCancelTagListener((call.arguments as String));
             }
             break;
           case EasyAppInstallerConstant.methodDownloadState:
-            if (stateListener != null && call.arguments != null) {
-              _handleDownloadState(call.arguments, stateListener);
+            if (onStateListener != null && call.arguments != null) {
+              _handleDownloadState(call.arguments, onStateListener);
             }
             break;
         }

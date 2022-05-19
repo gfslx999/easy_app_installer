@@ -89,23 +89,24 @@ class _MyAppState extends State<MyApp> {
   void downloadAndInstalApk() async {
     //fileUrl需替换为指定apk地址
     await EasyAppInstaller.instance.downloadAndInstallApk(
-        fileUrl: "https://hipos.oss-cn-shanghai.aliyuncs.com/hipos-kds-v.5.10.0321.apk",
-        fileDirectory: "updateApk",
-        fileName: "newApk.apk",
-        explainContent: "快去开启权限！！！",
-        downloadListener: (progress) {
-          if (progress < 100) {
-            EasyLoading.showProgress(progress / 100, status: "下载中");
-          } else {
-            EasyLoading.showSuccess("下载成功");
+          fileUrl: "https://xxxxx.apk",
+          fileDirectory: "updateApk",
+          fileName: "newApk.apk",
+          explainContent: "快去开启权限！！！",
+          onDownloadingListener: (progress) {
+            if (progress < 100) {
+              EasyLoading.showProgress(progress / 100, status: "下载中");
+            } else {
+              EasyLoading.showSuccess("下载成功");
+            }
+          },
+          onCancelTagListener: (cancelTag) {
+            _cancelTag = cancelTag;
+          },
+          onStateListener: (newState, attachParam) {
+            _handleDownloadStateChanged(newState, attachParam);
           }
-        },
-        cancelTagListener: (cancelTag) {
-          _cancelTag = cancelTag;
-        },
-        stateListener: (newState, attachParam) {
-          _handleDownloadStateChanged(newState, attachParam);
-        });
+        );
   }
 
   /// 处理下载状态更改

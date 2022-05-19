@@ -1,4 +1,8 @@
 
+## 0.0.6
+
+* 部分代码修改
+
 ## 0.0.5
 
 * 修复-README latestVersion 地址错误 - Fix README latestVersion url error.

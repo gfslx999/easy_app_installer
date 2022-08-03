@@ -1,0 +1,22 @@
+PODS:
+  - easy_app_installer (0.0.1):
+    - Flutter
+  - Flutter (1.0.0)
+
+DEPENDENCIES:
+  - easy_app_installer (from `.symlinks/plugins/easy_app_installer/ios`)
+  - Flutter (from `Flutter`)
+
+EXTERNAL SOURCES:
+  easy_app_installer:
+    :path: ".symlinks/plugins/easy_app_installer/ios"
+  Flutter:
+    :path: Flutter
+
+SPEC CHECKSUMS:
+  easy_app_installer: 29abe397da7d86721fee853281202f414373f45c
+  Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
+
+PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+
+COCOAPODS: 1.11.3

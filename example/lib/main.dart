@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:easy_app_installer/easy_app_installer.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 void main() {
@@ -26,10 +27,10 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    initPlatformState();
+    initData();
   }
 
-  Future<void> initPlatformState() async {
+  Future<void> initData() async {
     String platformVersion;
     try {
       platformVersion = await EasyAppInstaller.instance.platformVersion ??
@@ -42,6 +43,7 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       _platformVersion = platformVersion;
     });
+    await dotenv.load(fileName: "assets/testdata.env");
   }
 
   @override
@@ -57,6 +59,12 @@ class _MyAppState extends State<MyApp> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(_currentDownloadStateCH),
+              _buildButton("打开AppStore", () async {
+                final appId = dotenv.get("IOS_APP_ID", fallback: "");
+                print("gfs appId: $appId");
+                final openAppStoreResult = await EasyAppInstaller.instance.openAppStore(appId);
+                print("gfs openAppStoreResult: $openAppStoreResult");
+              }),
               _buildButton('下载并安装apk', () {
                 downloadAndInstalApk();
               }),

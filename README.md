@@ -1,12 +1,12 @@
 # easy_app_installer
 
-为Flutter提供简便的应用内升级（暂时仅支持安卓）
+为Flutter提供简便的应用内升级
 
-* 下载并安装apk (已处理相关权限)
-* 取消下载中的任务
-* 仅安装apk
-* 跳转到应用市场-指定应用详情页
-* 跳转到设置-指定应用详情页
+* 下载并安装apk (已处理相关权限) - 仅支持 Android
+* 取消下载中的任务 - 仅支持 Android
+* 仅安装apk - 仅支持 Android
+* 跳转到应用市场-指定应用详情页 - 支持Android与iOS
+* 跳转到设置-指定应用详情页 - 支持Android与iOS
 
 ## 效果：[效果演示](https://github.com/gfslx999/easy_app_installer/blob/master/example/PREVIEW.md)
 

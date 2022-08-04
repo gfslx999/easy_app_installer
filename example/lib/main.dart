@@ -97,9 +97,10 @@ class _MyAppState extends State<MyApp> {
   }
 
   void downloadAndInstalApk() async {
+
     //fileUrl需替换为指定apk地址
     await EasyAppInstaller.instance.downloadAndInstallApk(
-        fileUrl: "https://xxxxx.apk",
+        fileUrl: dotenv.get("APK_URL", fallback: ""),
         fileDirectory: "updateApk",
         fileName: "newApk.apk",
         explainContent: "快去开启权限！！！",

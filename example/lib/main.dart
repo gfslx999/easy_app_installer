@@ -61,7 +61,6 @@ class _MyAppState extends State<MyApp> {
               Text(_currentDownloadStateCH),
               _buildButton("打开AppStore", () async {
                 final appId = dotenv.get("IOS_APP_ID", fallback: "");
-                print("gfs appId: $appId");
                 final openAppStoreResult = await EasyAppInstaller.instance.openAppStore(appId);
                 print("gfs openAppStoreResult: $openAppStoreResult");
               }),
@@ -84,8 +83,9 @@ class _MyAppState extends State<MyApp> {
               _buildButton('打开应用市场', () {
                 EasyAppInstaller.instance.openAppMarket();
               }),
-              _buildButton('打开设置详情页', () {
-                EasyAppInstaller.instance.openAppSettingDetails();
+              _buildButton('打开设置详情页', () async {
+                final openResult = await EasyAppInstaller.instance.openAppSettingDetails();
+                print("gfs openResult: $openResult");
               }),
             ],
           ),

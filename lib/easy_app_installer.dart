@@ -4,12 +4,9 @@ export 'package:easy_app_installer/constant/easy_app_installer_constant.dart';
 export 'package:easy_app_installer/constant/easy_app_installer_state.dart';
 
 import 'dart:async';
-
 import 'package:easy_app_installer/constant/easy_app_installer_constant.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-
 import 'constant/easy_app_installer_state.dart';
 
 typedef OnStateChangeListener = Function(EasyAppInstallerState state, String? attachParam);
@@ -33,6 +30,7 @@ class EasyAppInstaller {
   }
 
   /// 下载APK到沙盒目录下，并执行安装操作
+  ///
   /// 仅支持Android
   Future<bool> downloadAndInstallApk({
     required String fileUrl,
@@ -100,6 +98,7 @@ class EasyAppInstaller {
   }
 
   /// 安装apk，内部已处理 '允许应用内安装其他应用' 权限
+  ///
   /// 仅支持Android
   Future<String> installApk(
     String filePath, {
@@ -127,6 +126,7 @@ class EasyAppInstaller {
   }
 
   /// 打开应用市场-当前应用详情页面
+  ///
   /// 仅支持Android
   Future<bool> openAppMarket({
     String applicationPackageName = "",
@@ -154,8 +154,12 @@ class EasyAppInstaller {
   }
 
   /// 打开AppStore
+  ///
   /// 仅支持iOS
   Future<bool> openAppStore(String appId) async {
+    if (defaultTargetPlatform != TargetPlatform.iOS) {
+      return false;
+    }
     try {
       final arguments = <String, dynamic>{
         "appId": appId,
@@ -167,7 +171,10 @@ class EasyAppInstaller {
     return false;
   }
 
-  /// 打开设置-指定应用详情页
+  /// 打开设置-应用详情页
+  ///
+  /// iOS 仅支持打开当前应用设置页面，无需传值
+  /// Android 支持打开指定应用详情页，传入对应包名即可；不传默认打开当前应用的设置页
   Future<bool> openAppSettingDetails({
     String applicationPackageName = "",
   }) async {

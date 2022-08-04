@@ -47,6 +47,10 @@ class EasyAppInstaller {
     if (defaultTargetPlatform != TargetPlatform.android) {
       return false;
     }
+    if (fileUrl.isEmpty || fileDirectory.isEmpty || fileName.isEmpty) {
+      debugPrint("EasyAppInstaller.downloadAndInstallApk: fileUrl/fileDirectory/fileName must not be empty!");
+      return false;
+    }
     final arguments = <String, dynamic>{
       "fileUrl": fileUrl,
       "fileDirectory": fileDirectory,
@@ -93,6 +97,10 @@ class EasyAppInstaller {
   /// 取消下载中的任务
   /// 仅支持Android
   Future<void> cancelDownload(String cancelTag) async {
+    if (cancelTag.isEmpty) {
+      debugPrint("EasyAppInstaller.cancelDownload: cancelTag must not be empty!");
+      return;
+    }
     final arguments = <String, dynamic>{"cancelTag": cancelTag};
     await _channel.invokeMethod("cancelDownload", arguments);
   }
@@ -107,6 +115,10 @@ class EasyAppInstaller {
     String? negativeText,
   }) async {
     if (defaultTargetPlatform != TargetPlatform.android) {
+      return "";
+    }
+    if (filePath.isEmpty) {
+      debugPrint("EasyAppInstaller.installApk: file path must not be empty!");
       return "";
     }
     final arguments = <String, dynamic>{

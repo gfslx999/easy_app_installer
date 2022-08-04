@@ -2,11 +2,11 @@
 
 为Flutter提供简便的应用内升级
 
-* 下载并安装apk (已处理相关权限) - 仅支持 Android
-* 取消下载中的任务 - 仅支持 Android
-* 仅安装apk - 仅支持 Android
-* 跳转到应用市场-指定应用详情页 - 支持Android与iOS
-* 跳转到设置-应用详情页 - 支持Android与iOS
+* [下载并安装apk](#downloadAndInstallApk) - 仅支持 Android
+* [取消下载中的任务](#cancelDownloadingTask) - 仅支持 Android
+* [仅安装apk](#onlyInstallApk) - 仅支持 Android
+* [跳转到应用市场/AppStore-指定应用详情页](#openAppMarket) - 支持Android与iOS
+* [跳转到设置-应用详情页](#openAppSettingDetails) - 支持Android与iOS
 
 ## 效果：[效果演示](https://github.com/gfslx999/easy_app_installer/blob/master/example/PREVIEW.md)
 
@@ -65,11 +65,11 @@ android:name = "androidx.core.content.FileProvider">
 
 ### 安装
 
-请参考这里: [easy_app_installer](https://pub.flutter-io.cn/packages/easy_app_installer/install)
+看这里: [easy_app_installer](https://pub.flutter-io.cn/packages/easy_app_installer/install)
 
 ### 文档说明
 
-#### 1.下载并安装apk
+#### <span id="downloadAndInstallApk">1.下载并安装apk</span>
 
 在Android 11上，首次同意'允许安装应用'权限会造成应用进程关闭，这是系统行为，这个问题在Android 12上已经修复。
 
@@ -86,7 +86,7 @@ android:name = "androidx.core.content.FileProvider">
 | cancelTagListener | 回调用于取消下载中任务的tag | 否 |
 | stateListener | 下载状态变化时改变，详请请参考底部[下载状态](#classDesDownloadState) | 否 |
 
-[参考](https://github.com/gfslx999/easy_app_installer/blob/master/example/lib/main.dart)
+详细示例，请参考：[example/lib/main.dart](https://github.com/gfslx999/easy_app_installer/blob/master/example/lib/main.dart)
 
 ```kotlin
 String _cancelTag = "";
@@ -114,7 +114,7 @@ EasyAppInstaller.instance.downloadAndInstallApk(
 );
 ```
 
-#### 2.取消下载中的任务
+#### <span id="cancelDownloadingTask">2.取消下载中的任务</span>
 
 | 参数名称 | 参数意义 | 是否必传 |
 | ------ | :------: | :------: |
@@ -124,7 +124,7 @@ EasyAppInstaller.instance.downloadAndInstallApk(
 EasyAppInstaller.instance.cancelDownload(_cancelTag);
 ```
 
-#### 3.仅安装apk
+#### <span id="onlyInstallApk">3.仅安装apk</span>
 
 | 参数名称 | 参数意义 | 是否必传 |
 | ------ | :------: | :------: |
@@ -134,7 +134,9 @@ EasyAppInstaller.instance.cancelDownload(_cancelTag);
 await EasyAppInstaller.instance.installApk(filePath);
 ```
 
-#### 4.跳转到应用市场-当前应用页面（仅支持Android）
+#### <span id="openAppMarket">4.跳转到应用市场-指定应用页面</span>
+
+仅支持Android
 
 | 参数名称 | 参数意义 | 是否必传 |
 | ------ | :------: | :------: |
@@ -152,7 +154,9 @@ await EasyAppInstaller.instance.installApk(filePath);
 await EasyAppInstaller.instance.openAppMarket();
 ```
 
-#### 5.跳转到AppStore-指定应用页面（仅支持iOS）
+#### 5.跳转到AppStore-指定应用页面
+
+仅支持iOS
 
 | 参数名称 | 参数意义 | 是否必传 |
 | ------ | :------: | :------: |
@@ -162,15 +166,17 @@ await EasyAppInstaller.instance.openAppMarket();
 EasyAppInstaller.instance.openAppStore(appId: "${appId}");
 ```
 
-#### 6.跳转到设置-应用详情页（支持Android&iOS）
+#### <span id="openAppSettingDetails">6.跳转到设置-应用详情页</span>
+
+支持Android&iOS
 
 | 参数名称 | 参数意义 | 是否必传 |
 | ------ | :------: | :------: |
 | applicationPackageName | 指定应用包名(默认为空) | 否 |
 
 ```kotlin
-/// 'applicationPackageName' 如果为空，则默认打开当前应用。
-/// iOS 无法跳转到其他应用详情页，所以 'applicationPackageName' 仅支持Android
+/// Android 支持打开指定应用设置页面，'applicationPackageName' 如果为空，则默认打开当前应用。
+/// iOS 无法跳转到其他应用详情页，所以无需传递参数
 await EasyAppInstaller.instance.openAppSettingDetails(applicationPackageName: "$targetAppPackage");
 ```
 

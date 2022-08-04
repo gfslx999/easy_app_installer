@@ -2,11 +2,11 @@
 
 It provides easy installation and upgrade for applications.
 
-* Download and install apk (Related permissions have been processed).
-* Cancel downloading task.
-* Only install apk (Related permissions have been processed).
-* Jump to AppMarket-Specif the application details page.
-* Jump to Setting-Specif the application details page.
+* [Download and install apk](#downloadAndInstallApk) - Only support android
+* [Cancel downloading task](#cancelDownloadingTask) - Only support android
+* [Only install apk](#onlyInstallApk) - Only support android
+* [Open AppMarket-Specif the application details page](#openAppMarket) - Support android & iOS
+* [Open Setting-Specif the application details page](#openAppSettingDetails) - Support android & iOS
 
 ## Preview：[Preview demonstrate](https://github.com/gfslx999/easy_app_installer/blob/master/example/PREVIEW.md)
 
@@ -66,52 +66,34 @@ example：[example file](https://github.com/gfslx999/easy_app_installer/blob/mas
 
 ### Installing
 
-In pubspec.yaml：
-
-```kotlin
-dependencies:
-  easy_app_installer: ^$latestVersion
-```
-latestVersion: [latestVersion](https://pub.flutter-io.cn/packages/easy_app_installer/install)
-
-### Import
-
-In the class to be used:
-
-```kotlin
-import 'package:easy_app_installer/easy_app_installer.dart';
-```
+[Look at here](https://pub.flutter-io.cn/packages/easy_app_installer/install)
 
 ### API Document
-
-#### `Note: All apis already handle the related permissions internally and do not need to do so again.`
 
 On Android 11, granting 'Allow applications to be installed' permissions for the first time causes the application process to shut down. 
 This is system behavior and has been fixed in Android 12.
 
-#### 1.Download and install apk
+#### <span id="downloadAndInstallApk">1.Download and install apk.</span>
+
+Only support Android
 
 | Param name | Param sense | Is require |
 | ------ | :------: | :------: |
 | fileUrl | Apk url | yes |
 | fileDirectory | Folder path (without concatenating backslashes at the beginning and end) | yes |
 | fileName | File name (no concatenation backslash required) | yes |
-| explainContent | Android 6 ~ 10 Popup Permission Prompt content | no |
-| positiveText | Android 6 ~ 10 Popup confim text | no |
-| negativeText | Android 6 ~ 10 Popup cancel text | no |
+| explainContent | Permission popup hint content | no |
+| positiveText | Permission popup confim text | no |
+| negativeText | Permission popup cancel text | no |
 | isDeleteOriginalFile | Whether to delete the same file if it already exists on the local PC (default:true)) | no |
 | downloadListener | Download progress, type is double, 0~100 | no |
 | cancelTagListener | The tag used to cancel the task in the download | no |
 | stateListener | Changes when the download status changes，Please refer to bottom [Download state](#classDesDownloadState) | no |
 
-[example](https://github.com/gfslx999/easy_app_installer/blob/master/example/lib/main.dart)
+In detail, look at here: [example/lib/main.dart](https://github.com/gfslx999/easy_app_installer/blob/master/example/lib/main.dart)
 
 ```kotlin
-String _cancelTag = "";
-
 /// Take this example, it's finally path is '/data/user/0/$applicationPackageName/files/updateApk/new.apk'.
-/// What if I want to specify two levels of directories, very simple, just set [fileDirectory] to 'updateApk/second'.
-/// And then, it will generate '/data/user/0/$applicationPackageName/files/updateApk/second/new.apk'.
 ///
 /// If this method is called consecutively and arguments are passed exactly the same, 
 /// the Native end will refuse to perform subsequent tasks until the task in the download completes.
@@ -135,7 +117,9 @@ EasyAppInstaller.instance.downloadAndInstallApk(
 );
 ```
 
-#### 2.Cancel downloading task
+#### <span id="cancelDownloadingTask">2.Cancel downloading task.</span>
+
+Only support Android
 
 | Param name | Param sense | Is require |
 | ------ | :------: | :------: |
@@ -145,17 +129,24 @@ EasyAppInstaller.instance.downloadAndInstallApk(
 EasyAppInstaller.instance.cancelDownload(_cancelTag);
 ```
 
-#### 3.Only install apk
+#### 3.<span id="onlyInstallApk">Only install apk.</span>
+
+Only support Android
 
 | Param name | Param sense | Is require |
 | ------ | :------: | :------: |
 | filePath | The absolute path of the apk | yes |
+| explainContent | Permission popup hint content | no |
+| positiveText | Permission popup confim text | no |
+| negativeText | Permission popup cancel text | no |
 
 ```kotlin
 EasyAppInstaller.instance.installApk(filePath);
 ```
 
-#### 4.Jump to AppMarket - assign application details page.
+#### <span id="openAppMarket">4.Open AppMarket - assign application details page.</span>
+
+Only support Android
 
 | Param name | Param sense | Is require |
 | ------ | :------: | :------: |
@@ -174,7 +165,21 @@ EasyAppInstaller.instance.installApk(filePath);
 EasyAppInstaller.instance.openAppMarket();
 ```
 
-#### 5.Jump to Setting - assign application details page.
+#### 5.Open AppStore assign application details page.
+
+Only support iOS
+
+| Param Name | Param sense | Is require |
+| ------ | :------: | :------: |
+| appId | The appId generated by Apple for the application | yes |
+
+```kotlin
+EasyAppInstaller.instance.openAppStore(appId: "${appId}");
+```
+
+#### <span id="openAppSettingDetails">6.Open Setting - assign application details page.</span>
+
+Support Android & iOS
 
 | Param name | Param sense | Is require |
 | ------ | :------: | :------: |

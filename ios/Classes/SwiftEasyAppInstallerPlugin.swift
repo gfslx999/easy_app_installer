@@ -20,6 +20,7 @@ public class SwiftEasyAppInstallerPlugin: NSObject, FlutterPlugin {
                 break;
             case "openAppSettingDetail":
                 openAppSettingDetail(result: result)
+                break;
             default :
                 result(FlutterMethodNotImplemented)
                 break;
@@ -30,7 +31,6 @@ public class SwiftEasyAppInstallerPlugin: NSObject, FlutterPlugin {
      打开当前APP系统设置页面
      */
     private func openAppSettingDetail(result: @escaping FlutterResult) {
-        
         let url = URL(string: "\(UIApplication.openSettingsURLString)")
         
         if let url = url, UIApplication.shared.canOpenURL(url) {
@@ -48,7 +48,7 @@ public class SwiftEasyAppInstallerPlugin: NSObject, FlutterPlugin {
     }
     
     /**
-     打开AppStore当前应用页面
+     打开AppStore指定应用页面
      */
     private func openAppStore(appId: Any?, result: @escaping FlutterResult) {
         // 获取传入的appId

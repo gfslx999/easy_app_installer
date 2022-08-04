@@ -5,7 +5,7 @@
 * [下载并安装apk](#downloadAndInstallApk) - 仅支持 Android
 * [取消下载中的任务](#cancelDownloadingTask) - 仅支持 Android
 * [仅安装apk](#onlyInstallApk) - 仅支持 Android
-* [跳转到应用市场/AppStore-指定应用详情页](#openAppMarket) - 支持Android与iOS
+* [跳转到应用市场-指定应用详情页](#openAppMarket) - 支持Android与iOS
 * [跳转到设置-应用详情页](#openAppSettingDetails) - 支持Android与iOS
 
 ## 效果：[效果演示](https://github.com/gfslx999/easy_app_installer/blob/master/example/PREVIEW.md)
@@ -76,15 +76,17 @@ android:name = "androidx.core.content.FileProvider">
 | 参数名称 | 参数意义 | 是否必传 |
 | ------ | :------: | :------: |
 | fileUrl | 要下载apk的url地址 | 是 |
-| fileDirectory | 文件夹路径(首尾无须拼接反斜杠) | 是 |
+| fileDirectory | 文件夹路径(无须拼接反斜杠) | 是 |
 | fileName | 文件名称(无需拼接反斜杠) | 是 |
-| explainContent | Android 6 ~ 10 中自定义权限弹窗的提示内容 | 否 |
-| positiveText | Android 6 ~ 10 中自定义权限弹窗的确认文字内容 | 否 |
-| negativeText | Android 6 ~ 10 中自定义权限弹窗的取消文字内容 | 否 |
-| isDeleteOriginalFile | 如果本地已存在相同文件，是否要删除(默认为true) | 否 |
+| explainContent | 权限弹窗的提示内容 | 否 |
+| positiveText | 权限弹窗的确认文字 | 否 |
+| negativeText | 权限弹窗的取消文字 | 否 |
+| isDeleteOriginalFile | 如已存在相同文件，是否要删除(默认为true) | 否 |
 | downloadListener | 下载进度回调，double类型，值为 0~100 | 否 |
 | cancelTagListener | 回调用于取消下载中任务的tag | 否 |
-| stateListener | 下载状态变化时改变，详请请参考底部[下载状态](#classDesDownloadState) | 否 |
+| stateListener | 下载状态变化时回调，请参考[下载状态](#classDesDownloadState) | 否 |
+
+ps:自定义权限弹窗仅在Android 6~10 中弹出，Android 10以上交由系统处理权限
 
 详细示例，请参考：[example/lib/main.dart](https://github.com/gfslx999/easy_app_installer/blob/master/example/lib/main.dart)
 
@@ -129,6 +131,11 @@ EasyAppInstaller.instance.cancelDownload(_cancelTag);
 | 参数名称 | 参数意义 | 是否必传 |
 | ------ | :------: | :------: |
 | filePath | apk文件的绝对路径 | 是 |
+| explainContent | 权限弹窗的提示内容 | 否 |
+| positiveText | 权限弹窗的确认文字 | 否 |
+| negativeText | 权限弹窗的取消文字 | 否 |
+
+ps:自定义权限弹窗仅在Android 6~10 中弹出，Android 10以上交由系统处理权限
 
 ```kotlin
 await EasyAppInstaller.instance.installApk(filePath);

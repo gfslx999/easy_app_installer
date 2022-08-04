@@ -160,6 +160,10 @@ class EasyAppInstaller {
     if (defaultTargetPlatform != TargetPlatform.iOS) {
       return false;
     }
+    if (appId.isEmpty) {
+      debugPrint("EasyAppInstaller.openAppStore: app id must not be empty!");
+      return false;
+    }
     try {
       final arguments = <String, dynamic>{
         "appId": appId,

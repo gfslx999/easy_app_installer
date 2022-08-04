@@ -6,13 +6,13 @@
 * 取消下载中的任务 - 仅支持 Android
 * 仅安装apk - 仅支持 Android
 * 跳转到应用市场-指定应用详情页 - 支持Android与iOS
-* 跳转到设置-指定应用详情页 - 支持Android与iOS
+* 跳转到设置-应用详情页 - 支持Android与iOS
 
 ## 效果：[效果演示](https://github.com/gfslx999/easy_app_installer/blob/master/example/PREVIEW.md)
 
 ## English document：[English document](https://github.com/gfslx999/easy_app_installer/blob/master/example/README.md)
 
-## 配置
+## 配置 - Android
 
 1.如果要使用应用内升级的相关功能，则需要配置 FileProvider
 
@@ -65,30 +65,13 @@ android:name = "androidx.core.content.FileProvider">
 
 ### 安装
 
-在 pubspec.yaml 内：
-
-```kotlin
-dependencies:
-easy_app_installer: ^$latestVersion
-```
-
-latestVersion: [latestVersion](https://pub.flutter-io.cn/packages/easy_app_installer/install)
-
-### 导入
-
-在要使用的类中：
-
-```kotlin
-import 'package:easy_app_installer/easy_app_installer.dart';
-```
+请参考这里: [easy_app_installer](https://pub.flutter-io.cn/packages/easy_app_installer/install)
 
 ### 文档说明
 
-#### `注意：所有API已经在内部处理了相关的权限，无需再次进行处理。`
+#### 1.下载并安装apk
 
 在Android 11上，首次同意'允许安装应用'权限会造成应用进程关闭，这是系统行为，这个问题在Android 12上已经修复。
-
-#### 1.下载并安装apk
 
 | 参数名称 | 参数意义 | 是否必传 |
 | ------ | :------: | :------: |
@@ -108,10 +91,8 @@ import 'package:easy_app_installer/easy_app_installer.dart';
 ```kotlin
 String _cancelTag = "";
 
+/// 仅支持将APK下载到沙盒目录下
 /// 当前这个示例最终生成的文件路径就是 '/data/user/0/$applicationPackageName/files/updateApk/new.apk'
-/// 如果我想指定两层目录怎么办呢，很简单，只需要将 [fileDirectory] 设置为 'updateApk/second'
-/// 那么他就会生成 '/data/user/0/$applicationPackageName/files/updateApk/second/new.apk'
-///
 /// 如果连续调用此方法，并且参数传递的完全一致，那么Native端将拒绝执行后续任务，直到下载中的任务执行完毕。
 EasyAppInstaller.instance.downloadAndInstallApk(
     fileUrl: "https://xxxx.apk",
@@ -150,10 +131,10 @@ EasyAppInstaller.instance.cancelDownload(_cancelTag);
 | filePath | apk文件的绝对路径 | 是 |
 
 ```kotlin
-EasyAppInstaller.instance.installApk(filePath);
+await EasyAppInstaller.instance.installApk(filePath);
 ```
 
-#### 4.跳转到应用市场-当前应用页面
+#### 4.跳转到应用市场-当前应用页面（仅支持Android）
 
 | 参数名称 | 参数意义 | 是否必传 |
 | ------ | :------: | :------: |
@@ -168,10 +149,20 @@ EasyAppInstaller.instance.installApk(filePath);
 ///
 /// 简单来说，如果你有指定的应用市场，就传递 'targetMarketPackageName' 为对应的包名；
 /// 如果你没有指定的应用市场，但是想让大部分机型都打开厂商应用商店，那么就设置 'isOpenSystemMarket' 为true
-EasyAppInstaller.instance.openAppMarket();
+await EasyAppInstaller.instance.openAppMarket();
 ```
 
-#### 5.跳转到设置-指定应用详情页
+#### 5.跳转到AppStore-指定应用页面（仅支持iOS）
+
+| 参数名称 | 参数意义 | 是否必传 |
+| ------ | :------: | :------: |
+| appId | Apple为应用生成的AppId | 是 |
+
+```kotlin
+EasyAppInstaller.instance.openAppStore(appId: "${appId}");
+```
+
+#### 6.跳转到设置-应用详情页（支持Android&iOS）
 
 | 参数名称 | 参数意义 | 是否必传 |
 | ------ | :------: | :------: |
@@ -179,7 +170,8 @@ EasyAppInstaller.instance.openAppMarket();
 
 ```kotlin
 /// 'applicationPackageName' 如果为空，则默认打开当前应用。
-EasyAppInstaller.instance.openAppSettingDetails(applicationPackageName: "$targetAppPackage");
+/// iOS 无法跳转到其他应用详情页，所以 'applicationPackageName' 仅支持Android
+await EasyAppInstaller.instance.openAppSettingDetails(applicationPackageName: "$targetAppPackage");
 ```
 
 ### 类说明

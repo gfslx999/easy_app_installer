@@ -1,4 +1,10 @@
 
+## 1.0.0
+
+* 支持iOS打开AppStore指定应用详情页 - Support iOS to open the current app AppStore details page.
+* 支持iOS当前应用设置详情页 - Support iOS to open the current app Setting details page.
+* 必传参数在Flutter端添加校验 - The required parameter adds a check at the Flutter end.
+
 ## 0.0.6
 
 * 部分代码修改

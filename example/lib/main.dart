@@ -61,7 +61,8 @@ class _MyAppState extends State<MyApp> {
               Text(_currentDownloadStateCH),
               _buildButton("打开AppStore", () async {
                 final appId = dotenv.get("IOS_APP_ID", fallback: "");
-                final openAppStoreResult = await EasyAppInstaller.instance.openAppStore(appId);
+                final openAppStoreResult =
+                    await EasyAppInstaller.instance.openAppStore(appId);
                 print("gfs openAppStoreResult: $openAppStoreResult");
               }),
               _buildButton('下载并安装apk', () {
@@ -84,7 +85,8 @@ class _MyAppState extends State<MyApp> {
                 EasyAppInstaller.instance.openAppMarket();
               }),
               _buildButton('打开设置详情页', () async {
-                final openResult = await EasyAppInstaller.instance.openAppSettingDetails();
+                final openResult =
+                    await EasyAppInstaller.instance.openAppSettingDetails();
                 print("gfs openResult: $openResult");
               }),
             ],
@@ -97,24 +99,23 @@ class _MyAppState extends State<MyApp> {
   void downloadAndInstalApk() async {
     //fileUrl需替换为指定apk地址
     await EasyAppInstaller.instance.downloadAndInstallApk(
-          fileUrl: "https://xxxxx.apk",
-          fileDirectory: "updateApk",
-          fileName: "newApk.apk",
-          explainContent: "快去开启权限！！！",
-          onDownloadingListener: (progress) {
-            if (progress < 100) {
-              EasyLoading.showProgress(progress / 100, status: "下载中");
-            } else {
-              EasyLoading.showSuccess("下载成功");
-            }
-          },
-          onCancelTagListener: (cancelTag) {
-            _cancelTag = cancelTag;
-          },
-          onStateListener: (newState, attachParam) {
-            _handleDownloadStateChanged(newState, attachParam);
+        fileUrl: "https://xxxxx.apk",
+        fileDirectory: "updateApk",
+        fileName: "newApk.apk",
+        explainContent: "快去开启权限！！！",
+        onDownloadingListener: (progress) {
+          if (progress < 100) {
+            EasyLoading.showProgress(progress / 100, status: "下载中");
+          } else {
+            EasyLoading.showSuccess("下载成功");
           }
-        );
+        },
+        onCancelTagListener: (cancelTag) {
+          _cancelTag = cancelTag;
+        },
+        onStateListener: (newState, attachParam) {
+          _handleDownloadStateChanged(newState, attachParam);
+        });
   }
 
   /// 处理下载状态更改

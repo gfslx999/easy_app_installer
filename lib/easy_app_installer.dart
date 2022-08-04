@@ -9,7 +9,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'constant/easy_app_installer_state.dart';
 
-typedef OnStateChangeListener = Function(EasyAppInstallerState state, String? attachParam);
+typedef OnStateChangeListener = Function(
+    EasyAppInstallerState state, String? attachParam);
 
 class EasyAppInstaller {
   EasyAppInstaller.internal();
@@ -48,7 +49,8 @@ class EasyAppInstaller {
       return false;
     }
     if (fileUrl.isEmpty || fileDirectory.isEmpty || fileName.isEmpty) {
-      debugPrint("EasyAppInstaller.downloadAndInstallApk: fileUrl/fileDirectory/fileName must not be empty!");
+      debugPrint(
+          "EasyAppInstaller.downloadAndInstallApk: fileUrl/fileDirectory/fileName must not be empty!");
       return false;
     }
     final arguments = <String, dynamic>{
@@ -98,7 +100,8 @@ class EasyAppInstaller {
   /// 仅支持Android
   Future<void> cancelDownload(String cancelTag) async {
     if (cancelTag.isEmpty) {
-      debugPrint("EasyAppInstaller.cancelDownload: cancelTag must not be empty!");
+      debugPrint(
+          "EasyAppInstaller.cancelDownload: cancelTag must not be empty!");
       return;
     }
     final arguments = <String, dynamic>{"cancelTag": cancelTag};

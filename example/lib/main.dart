@@ -1,3 +1,4 @@
+import 'package:easy_app_installer_example/debounce_button.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -66,7 +67,6 @@ class _MyAppState extends State<MyApp> {
                 print("gfs openAppStoreResult: $openAppStoreResult");
               }),
               _buildButton('下载并安装apk', () {
-                downloadAndInstalApk();
               }),
               _buildButton('取消下载任务', () {
                 if (_cancelTag.isNotEmpty) {
@@ -82,12 +82,14 @@ class _MyAppState extends State<MyApp> {
                 print("gfs installApk: $path");
               }),
               _buildButton('打开应用市场', () {
-                EasyAppInstaller.instance.openAppMarket();
+                // EasyAppInstaller.instance.openAppMarket();
+                EasyLoading.showToast("执行---打开应用市场");
               }),
               _buildButton('打开设置详情页', () async {
-                final openResult =
-                    await EasyAppInstaller.instance.openAppSettingDetails();
-                print("gfs openResult: $openResult");
+                // final openResult =
+                //     await EasyAppInstaller.instance.openAppSettingDetails();
+                // print("gfs openResult: $openResult");
+                EasyLoading.showToast("执行---打开设置详情页");
               }),
             ],
           ),
@@ -144,17 +146,31 @@ class _MyAppState extends State<MyApp> {
     setState(() {});
   }
 
+  final map = <String, Object?>{
+    "": null,
+  };
+
   Widget _buildButton(String text, Function function) {
-    return MaterialButton(
-      color: Colors.blue,
-      child: Text(
-        text,
-        style: const TextStyle(color: Colors.white),
-      ),
-      onPressed: () {
-        function();
-      },
-    );
+    return DebounceButton(
+      intervelMillSeconds: 2000,
+        child: IntrinsicWidth(
+          child: Container(
+            color: Colors.blue,
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+                child: Text(
+                  text,
+                  style: const TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+          ),
+        ),
+        onClickListener: () {
+          print("gfs onClickListener");
+          function();
+        });
   }
 
   @override

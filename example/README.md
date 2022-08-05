@@ -186,7 +186,8 @@ Support Android & iOS
 | applicationPackageName | Specify the application package name (default: "") | no |
 
 ```kotlin
-/// If 'applicationPackageName' is empty, It will open the current app by default.
+/// Android support open specified app Setting details page，if 'applicationPackageName' is empty, will open current app Setting details page;
+/// iOS only support open current app Setting details page, need not param to pass.
 EasyAppInstaller.instance.openAppSettingDetails(applicationPackageName: "$targetAppPackage");
 ```
 

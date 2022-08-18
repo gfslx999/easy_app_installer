@@ -31,6 +31,8 @@ dependencies:
   flutter_easyloading: ^3.0.3
   flutter_dotenv: ^5.0.2
   shared_preferences: ^2.0.7
+  just_debounce_it: ^4.1.0
+
 
 dev_dependencies:
   flutter_test:

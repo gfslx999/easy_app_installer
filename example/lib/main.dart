@@ -1,11 +1,10 @@
-import 'package:easy_app_installer_example/debounce_button.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:easy_app_installer/easy_app_installer.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:just_debounce_it/just_debounce_it.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,8 +18,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-
   String _cancelTag = "";
   String _apkFilePath = "";
   String _currentDownloadStateCH = "当前下载状态：还未开始";
@@ -39,12 +36,7 @@ class _MyAppState extends State<MyApp> {
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
-    });
-    await dotenv.load(fileName: "assets/testdata.env");
+    // await dotenv.load(fileName: "assets/testdata.env");
   }
 
   @override
@@ -61,11 +53,11 @@ class _MyAppState extends State<MyApp> {
             children: [
               Text(_currentDownloadStateCH),
               _buildButton("打开AppStore", () async {
-                final appId = dotenv.get("IOS_APP_ID", fallback: "");
+                // final appId = dotenv.get("IOS_APP_ID", fallback: "");
                 final openAppStoreResult =
-                    await EasyAppInstaller.instance.openAppStore(appId);
+                    await EasyAppInstaller.instance.openAppStore("appId");
                 print("gfs openAppStoreResult: $openAppStoreResult");
-              }),
+              }, autoFocus: true),
               _buildButton('下载并安装apk', () {
               }),
               _buildButton('取消下载任务', () {
@@ -83,13 +75,23 @@ class _MyAppState extends State<MyApp> {
               }),
               _buildButton('打开应用市场', () {
                 // EasyAppInstaller.instance.openAppMarket();
-                EasyLoading.showToast("执行---打开应用市场");
+                Debounce.duration(const Duration(seconds: 2), () {
+                  EasyLoading.showToast("执行---打开应用市场");
+                  print("执行---打开应用市场");
+                });
               }),
               _buildButton('打开设置详情页', () async {
                 // final openResult =
                 //     await EasyAppInstaller.instance.openAppSettingDetails();
                 // print("gfs openResult: $openResult");
-                EasyLoading.showToast("执行---打开设置详情页");
+                // EasyLoading.showToast("执行---打开设置详情页");
+                target () {
+                  EasyLoading.showToast("执行---打开设置详情页");
+                  print("执行---打开设置详情页");
+                }
+                print("_lastTarget: $_lastTarget, target: $target, ===: ${_lastTarget == target}");
+                _lastTarget = target;
+                Debounce.duration(const Duration(seconds: 2), target);
               }),
             ],
           ),
@@ -98,10 +100,12 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
+  Function? _lastTarget;
+
   void downloadAndInstalApk() async {
     //fileUrl需替换为指定apk地址
     await EasyAppInstaller.instance.downloadAndInstallApk(
-        fileUrl: dotenv.get("APK_URL", fallback: ""),
+        fileUrl: "dotenv.get("", fallback: "")",
         fileDirectory: "updateApk",
         fileName: "newApk.apk",
         explainContent: "快去开启权限！！！",
@@ -146,31 +150,74 @@ class _MyAppState extends State<MyApp> {
     setState(() {});
   }
 
-  final map = <String, Object?>{
-    "": null,
-  };
-
-  Widget _buildButton(String text, Function function) {
-    return DebounceButton(
-      intervelMillSeconds: 2000,
-        child: IntrinsicWidth(
-          child: Container(
-            color: Colors.blue,
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
-                child: Text(
-                  text,
-                  style: const TextStyle(color: Colors.white),
-                ),
+  Widget _buildButton(String text, Function function, {
+    bool autoFocus = false,
+  }) {
+    return InkWell(
+      onTap: () {
+        function();
+      },
+      child: IntrinsicWidth(
+        child: Container(
+          margin: const EdgeInsets.only(top: 8),
+          color: Colors.blue,
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+              child: Text(
+                text,
+                style: const TextStyle(color: Colors.white),
               ),
             ),
           ),
         ),
-        onClickListener: () {
-          print("gfs onClickListener");
-          function();
-        });
+      ),
+    );
+    // return UsefulFocusParent(
+    //   onClickListener: () {
+    //     function();
+    //   },
+    //   intervalMillSeconds: 1000,
+    //   autoFocus: autoFocus,
+    //   childBuilder: ((hasFocus) {
+    //     final backgroundColor = hasFocus ? Colors.blue : Colors.pink;
+    //     return IntrinsicWidth(
+    //       child: Container(
+    //         margin: const EdgeInsets.only(top: 8),
+    //         color: backgroundColor,
+    //         child: Center(
+    //           child: Padding(
+    //             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+    //             child: Text(
+    //               text,
+    //               style: const TextStyle(color: Colors.white),
+    //             ),
+    //           ),
+    //         ),
+    //       ),
+    //     );
+    //   }),
+    // );
+    // return UsefulFocusParent(
+    //     intervalMillSeconds: 1000,
+    //     autoFocus: autoFocus,
+    //     child: IntrinsicWidth(
+    //       child: Container(
+    //         color: Colors.blue,
+    //         child: Center(
+    //           child: Padding(
+    //             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+    //             child: Text(
+    //               text,
+    //               style: const TextStyle(color: Colors.white),
+    //             ),
+    //           ),
+    //         ),
+    //       ),
+    //     ),
+    //     onClickListener: () {
+    //       function();
+    //     });
   }
 
   @override

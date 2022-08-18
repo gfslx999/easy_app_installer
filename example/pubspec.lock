@@ -56,7 +56,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.0.6"
+    version: "1.0.0"
   fake_async:
     dependency: transitive
     description:
@@ -135,6 +135,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.6.3"
+  just_debounce_it:
+    dependency: "direct main"
+    description:
+      name: just_debounce_it
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "4.1.0"
   lints:
     dependency: transitive
     description:
